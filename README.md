@@ -38,7 +38,7 @@ For more detailed installation instructions, visit the [official uv documentatio
 ## Installation
 
 1. Clone the repository:
-   ```git clone https://github.com/yourusername/minimal-django-htmx-run-tracker.git```
+   ```git clone https://github.com/DarioRubenScanferlato/minimal-django-htmx-run-tracker.git```
    ```cd minimal-django-htmx-run-tracker```
 
 2. Install the required Python packages:
