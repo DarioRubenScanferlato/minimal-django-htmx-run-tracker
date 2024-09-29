@@ -44,10 +44,16 @@ For more detailed installation instructions, visit the [official uv documentatio
 2. Install the required Python packages:
    ```uv sync```
 
-3. Apply migrations:
+3. Activate the virtual environment:
+   ```# Windows```
+   ```.\.venv\Scripts\activate```
+   ```# Unix or MacOS```
+   ```source .venv/bin/activate```
+
+4. Apply migrations:
    ```python manage.py migrate```
 
-4. (optional) Load initial data fixture:
+5. (optional) To load data from a json file, run the following command. Feel free to modify the data in the fixtures folder:
    ```python manage.py loaddata runs.json```
 
 ## Running the Application
