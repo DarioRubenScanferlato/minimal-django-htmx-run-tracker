@@ -2,6 +2,9 @@
 
 This is a simple run tracking app I built to practice Django and HTMX.
 
+![image](https://github.com/user-attachments/assets/0f43dcdb-2cca-4641-bd8e-1735c68d5801)
+
+
 ## Features
 
 - Track your runs with distance, time, and date
