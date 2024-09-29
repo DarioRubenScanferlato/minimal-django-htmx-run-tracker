@@ -1,0 +1,59 @@
+<div class="graph-container">
+    <canvas id="yearlyDistanceChart"></canvas>
+</div>
+
+<script>
+function createYearlyChart() {
+    fetch('{% url "yearly_distance_data" %}')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('yearlyDistanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Distance (km)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Monthly Running Distance ${new Date().getFullYear()}`
+                        }
+                    }
+                }
+            });
+        });
+}
+
+// Check if Chart is defined, if not, wait for it to load
+if (typeof Chart === 'undefined') {
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof Chart === 'undefined') {
+            const script = document.querySelector('script[src*="chart.js"]');
+            if (script) {
+                script.onload = createYearlyChart;
+            } else {
+                console.error('Chart.js script not found');
+            }
+        } else {
+            createYearlyChart();
+        }
+    });
+} else {
+    createYearlyChart();
+}
+</script>

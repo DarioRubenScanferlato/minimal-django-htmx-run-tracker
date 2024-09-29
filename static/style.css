@@ -1,0 +1,143 @@
+/* styles.css */
+body { 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    margin: 0; 
+    padding: 0; 
+    background-color: #E6E9F0; 
+}
+.title { 
+    background-color: #4A5568;
+    color: white;
+    margin: 0;
+    padding: 20px;
+    padding-left: 5%;
+    width: 100%;
+}
+.container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+    table-layout: fixed; 
+}
+th, td { 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    text-align: left; 
+    width: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+th { background-color: #4A5568; color: white; }
+form { margin-top: 20px; }
+input, button { margin: 5px 0; padding: 5px; }
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    padding-right: 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 30%;
+    text-align: right;
+}
+.card .metric {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card p {
+    margin: 0;
+    font-size: 15px;
+}
+
+#add-run-form {
+    width: 65%;
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.step-links a {
+    color: #4A5568;
+    text-decoration: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.step-links a:hover {
+    background-color: #E6E9F0;
+}
+
+.step-links .current {
+    color: #4A5568;
+    font-weight: bold;
+    padding: 8px 12px;
+}
+
+/* Disabled pagination links */
+.step-links a.disabled {
+    color: #a0aec0;
+    pointer-events: none;
+}
+
+
+/* ... existing styles ... */
+
+.graph-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ... rest of existing styles ... */
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}

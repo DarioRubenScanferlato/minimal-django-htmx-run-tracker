@@ -1,0 +1,47 @@
+<h2>Recent Runs</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Distance (km)</th>
+            <th>Time</th>
+            <th>Average Pace (min:sec/km)</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for run in page_obj %}
+        <tr>
+            <td>{{ run.date }}</td>
+            <td style="text-align: right;">{{ run.distance|floatformat:2 }}</td>
+            <td style="text-align: right;">{{ run.formatted_time }}</td>
+            <td style="text-align: right;">{{ run.formatted_average_pace }}</td>
+            <td>{{ run.note }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" hx-get="{% url 'run_list' %}?page=1" hx-target="#run-list">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" hx-get="{% url 'run_list' %}?page={{ page_obj.previous_page_number }}" hx-target="#run-list">previous</a>
+        {% else %}
+            <a class="disabled">&laquo; first</a>
+            <a class="disabled">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" hx-get="{% url 'run_list' %}?page={{ page_obj.next_page_number }}" hx-target="#run-list">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" hx-get="{% url 'run_list' %}?page={{ page_obj.paginator.num_pages }}" hx-target="#run-list">last &raquo;</a>
+        {% else %}
+            <a class="disabled">next</a>
+            <a class="disabled">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

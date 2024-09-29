@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Tracker</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+<body>
+    <h1 class="title">Run Tracker</h1>
+
+    <div class="container">
+        <div class="dashboard">
+            
+            <div id="add-run-form">
+                <h2>Add New Run</h2>
+                <form hx-post="{% url 'add_run' %}" hx-target="#run-list" hx-swap="innerHTML">
+                    {% csrf_token %}
+                    <input type="date" name="date" required value="{% now 'Y-m-d' %}">
+                    <input type="number" name="distance" step="0.01" placeholder="Distance (km)" required>
+                    <input type="text" name="time" pattern="[0-9]+:[0-5][0-9]" placeholder="Time (MM:SS)" required>
+                    <input type="text" name="note" placeholder="Note (optional)">
+                    <button type="submit">Add Run</button>
+                </form>
+            </div>
+            <div class="card" id="yearly-total"></div>
+            <div class="card" id="weekly-total"></div>
+
+        </div>
+
+        <div id="run-list" hx-get="{% url 'run_list' %}" hx-trigger="load">
+            <!-- Run list will be loaded here -->
+        </div>
+    </div>
+    {% include 'yearly_chart.html' %}
+
+    <!-- Add Chart.js here, just before the closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            htmx.ajax('GET', "{% url 'yearly_total' %}", '#yearly-total');
+            htmx.ajax('GET', "{% url 'weekly_total' %}", '#weekly-total');
+        });
+    </script>
+</body>
+</html>

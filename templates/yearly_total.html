@@ -1,0 +1,10 @@
+<h3>Total Distance This Year</h3>
+<p class="metric">{{ yearly_total|floatformat:2 }} km</p>
+
+<p style="color: #888;">
+    (
+    <span style="color: {% if percentage_diff > 0 %}#28a745{% elif percentage_diff < 0 %}#dc3545{% else %}#888{% endif %};">
+        {% if percentage_diff > 0 %}+{% endif %}{{ percentage_diff|floatformat:1 }}%
+    </span>
+    compared to Jan - {% now "M" %} {{ previous_year }})
+</p>
