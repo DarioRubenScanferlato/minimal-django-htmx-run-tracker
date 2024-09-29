@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('runs', '0001_initial'),
+        ("runs", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='run',
-            name='time',
-            field=models.IntegerField(help_text='Time taken for the run in seconds'),
+            model_name="run",
+            name="time",
+            field=models.IntegerField(help_text="Time taken for the run in seconds"),
         ),
     ]

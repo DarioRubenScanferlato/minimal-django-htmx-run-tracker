@@ -4,22 +4,35 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Run',
+            name="Run",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('distance', models.FloatField(help_text='Distance in kilometers')),
-                ('time', models.DurationField(help_text='Time taken for the run')),
-                ('note', models.TextField(blank=True, null=True)),
-                ('average_pace', models.FloatField(editable=False, help_text='Average pace in minutes per kilometer', null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                ("distance", models.FloatField(help_text="Distance in kilometers")),
+                ("time", models.DurationField(help_text="Time taken for the run")),
+                ("note", models.TextField(blank=True, null=True)),
+                (
+                    "average_pace",
+                    models.FloatField(
+                        editable=False,
+                        help_text="Average pace in minutes per kilometer",
+                        null=True,
+                    ),
+                ),
             ],
         ),
     ]

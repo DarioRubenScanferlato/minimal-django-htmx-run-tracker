@@ -1,15 +1,18 @@
 from django.db import models
 from datetime import timedelta
 
+
 # Create your models here.
 class Run(models.Model):
     date = models.DateField()
     distance = models.FloatField(help_text="Distance in kilometers")
     time = models.IntegerField(help_text="Time taken for the run in seconds")
     note = models.TextField(blank=True, null=True)
-    
-    average_pace = models.FloatField(editable=False, null=True, help_text="Average pace in minutes per kilometer")
-    
+
+    average_pace = models.FloatField(
+        editable=False, null=True, help_text="Average pace in minutes per kilometer"
+    )
+
     @property
     def formatted_average_pace(self):
         if self.average_pace is not None:
@@ -33,11 +36,11 @@ class Run(models.Model):
     def save(self, *args, **kwargs):
         if self.distance <= 0:
             raise ValueError("Distance must be greater than 0.")
-        
+
         if self.time <= 0:
             raise ValueError("Time must be greater than 0.")
         if isinstance(self.time, str):
-            time_parts = self.time.split(':')
+            time_parts = self.time.split(":")
             if len(time_parts) == 3:
                 hours, minutes, seconds = map(int, time_parts)
                 self.time = hours * 3600 + minutes * 60 + seconds
@@ -48,9 +51,9 @@ class Run(models.Model):
                 raise ValueError("Invalid time format. Use 'HH:MM:SS' or 'MM:SS'.")
         if self.distance and self.time:
             self.average_pace = round(self.time / 60 / self.distance, 2)
-        
+
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         formatted_pace = self.formatted_average_pace or "N/A"
         formatted_time = self.formatted_time or "N/A"
