@@ -31,10 +31,21 @@ class Run(models.Model):
         return None
 
     def save(self, *args, **kwargs):
-        # Convert time from mm:ss string to total seconds
+        if self.distance <= 0:
+            raise ValueError("Distance must be greater than 0.")
+        
+        if self.time <= 0:
+            raise ValueError("Time must be greater than 0.")
         if isinstance(self.time, str):
-            minutes, seconds = map(int, self.time.split(':'))
-            self.time = minutes * 60 + seconds
+            time_parts = self.time.split(':')
+            if len(time_parts) == 3:
+                hours, minutes, seconds = map(int, time_parts)
+                self.time = hours * 3600 + minutes * 60 + seconds
+            elif len(time_parts) == 2:
+                minutes, seconds = map(int, time_parts)
+                self.time = minutes * 60 + seconds
+            else:
+                raise ValueError("Invalid time format. Use 'HH:MM:SS' or 'MM:SS'.")
         if self.distance and self.time:
             self.average_pace = round(self.time / 60 / self.distance, 2)
         
