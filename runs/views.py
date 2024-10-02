@@ -86,7 +86,7 @@ def yearly_total(request):
         "current_month": current_date,
     }
 
-    return render(request, "yearly_total.html", context)
+    return render(request, "cards/yearly_total.html", context)
 
 
 def weekly_total(request):
@@ -97,7 +97,7 @@ def weekly_total(request):
         ]
         or 0
     )
-    return render(request, "weekly_total.html", {"weekly_total": total})
+    return render(request, "cards/weekly_total.html", {"weekly_total": total})
 
 
 def yearly_distance_data(request):
@@ -134,4 +134,32 @@ def yearly_distance_data(request):
 def delete_run(request, run_id):
     run = get_object_or_404(Run, id=run_id)
     run.delete()
-    return HttpResponse(status=204)  # No content
+    
+    # Get the updated run list
+    runs = Run.objects.all().order_by('-date')
+    paginator = Paginator(runs, 10)  # Assuming 10 runs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Render the updated run list
+    return render(request, 'run_list.html', {'page_obj': page_obj})
+
+
+def cumulative_distance_data(request):
+    """Returns the cumulative distance travelled for the year"""
+    current_year = timezone.now().year
+    runs = Run.objects.filter(date__year=current_year).order_by('date')
+    
+    cumulative_data = []
+    total_distance = 0
+    
+    for run in runs:
+        total_distance += run.distance
+        cumulative_data.append({
+            'x': run.date.isoformat(),
+            'y': round(total_distance, 2)
+        })
+
+    response_json = {'data': cumulative_data}
+    
+    return JsonResponse(response_json)

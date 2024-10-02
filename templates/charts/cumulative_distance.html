@@ -1,0 +1,36 @@
+<div class="graph-container">
+    <canvas id="cumulativeDistanceChart"></canvas>
+</div>
+
+
+
+<script>
+function createCumulativeDistanceChart() {
+    fetch('{% url "cumulative_distance_data" %}')
+        .then(response => response.json())
+        .then(distance_data => {
+
+            const ctx = document.getElementById('cumulativeDistanceChart').getContext('2d');
+            const config = {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Cumulative Distance (km)',
+                        data: distance_data['data']
+                    }],
+                },
+                options: {
+                    scales: {
+                        x: {
+                            min: '2024-01-01',
+                        }
+                    }
+                }
+            };
+            new Chart(ctx, config);
+        });
+}
+
+// Call the function when the DOM is ready
+document.addEventListener('DOMContentLoaded', createCumulativeDistanceChart);
+</script>

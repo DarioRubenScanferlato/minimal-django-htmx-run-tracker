@@ -23,7 +23,7 @@
                     <input type="number" name="distance" step="0.01" placeholder="Distance (km)" required>
                     <input type="text" name="time" pattern="[0-9]+:[0-5][0-9]" placeholder="Time (MM:SS)" required>
                     <input type="text" name="note" placeholder="Note (optional)">
-                    <button type="submit">Add Run</button>
+                    <button type="submit" class="btn-primary">Add Run</button>
                 </form>
             </div>
             <div class="card" id="yearly-total"></div>
@@ -35,10 +35,11 @@
             <!-- Run list will be loaded here -->
         </div>
     </div>
-    {% include 'yearly_chart.html' %}
+    {% include 'charts/yearly_chart.html' %}
+    {% include 'charts/cumulative_distance.html' %}
 
-    <!-- Add Chart.js here, just before the closing body tag -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     
     <script>
         document.body.addEventListener('htmx:configRequest', (event) => {

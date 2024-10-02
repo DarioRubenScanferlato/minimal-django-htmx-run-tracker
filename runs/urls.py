@@ -7,8 +7,7 @@ urlpatterns = [
     path("add_run/", views.add_run, name="add_run"),
     path("yearly_total/", views.yearly_total, name="yearly_total"),
     path("weekly_total/", views.weekly_total, name="weekly_total"),
-    path(
-        "yearly-distance-data/", views.yearly_distance_data, name="yearly_distance_data"
-    ),
+    path("yearly-distance-data/", views.yearly_distance_data, name="yearly_distance_data"),
     path("delete-run/<int:run_id>/", views.delete_run, name="delete_run"),
+    path("cumulative-distance-data/", views.cumulative_distance_data, name="cumulative_distance_data"),
 ]
