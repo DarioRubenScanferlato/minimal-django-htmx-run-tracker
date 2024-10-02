@@ -56,7 +56,7 @@ For more detailed installation instructions, visit the [official uv documentatio
 4. Apply migrations:
    ```python manage.py migrate```
 
-5. (optional) To load data from a json file, run the following command. Feel free to modify the data in the fixtures folder:
+5. (optional step) To load data from a json file, run the following command. Feel free to modify the data in the fixtures folder:
    ```python manage.py loaddata runs.json```
 
 ## Running the Application
