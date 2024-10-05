@@ -152,14 +152,19 @@ def cumulative_distance_data(request):
     
     cumulative_data = []
     total_distance = 0
+    labels = []
     
-    for run in runs:
-        total_distance += run.distance
-        cumulative_data.append({
-            'x': run.date.isoformat(),
-            'y': round(total_distance, 2)
-        })
+    if runs.exists():
+        first_run_date = runs.first().date
+        for run in runs:
+            total_distance += run.distance
+            days_since_first_run = (run.date - first_run_date).days
+            cumulative_data.append({
+                'x': days_since_first_run,
+                'y': round(total_distance, 2)
+            })
+            labels.append(run.date.strftime('%b %d'))  # Format date as 'Mon DD'
 
-    response_json = {'data': cumulative_data}
+    response_json = {'data': cumulative_data, 'labels': labels}
     
     return JsonResponse(response_json)

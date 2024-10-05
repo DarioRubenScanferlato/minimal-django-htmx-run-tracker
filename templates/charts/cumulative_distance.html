@@ -8,21 +8,49 @@
 function createCumulativeDistanceChart() {
     fetch('{% url "cumulative_distance_data" %}')
         .then(response => response.json())
-        .then(distance_data => {
-
+        .then(data => {
             const ctx = document.getElementById('cumulativeDistanceChart').getContext('2d');
             const config = {
                 type: 'line',
                 data: {
+                    labels: data.labels,
                     datasets: [{
                         label: 'Cumulative Distance (km)',
-                        data: distance_data['data']
-                    }],
+                        data: data.data,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         x: {
-                            min: '2024-01-01',
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'Days since first run'
+                            },
+                            ticks: {
+                                stepSize: 30,  // Show a tick roughly every month
+                                callback: function(value, index) {
+                                    // Find the closest actual data point
+                                    const closestIndex = data.data.findIndex(point => point.x >= value);
+                                    if (closestIndex !== -1) {
+                                        return data.labels[closestIndex];
+                                    }
+                                    return '';
+                                }
+                            },
+                            min: 0,
+                            max: data.data[data.data.length - 1].x  // Set max to the last x value
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Cumulative Distance (km)'
+                            },
+                            beginAtZero: true
                         }
                     }
                 }
