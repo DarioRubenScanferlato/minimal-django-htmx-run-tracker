@@ -38,7 +38,7 @@ def run_list(request):
 
     return render(request, "run_list.html", {"page_obj": page_obj})
 
-
+# Cards
 def yearly_total(request):
     current_date = timezone.now().date()
     current_year = current_date.year
@@ -75,9 +75,7 @@ def yearly_total(request):
             (current_year_total - previous_year_total) / previous_year_total
         ) * 100
     else:
-        percentage_diff = (
-            100  # If previous year total is 0, consider it as 100% increase
-        )
+        percentage_diff = 100
 
     context = {
         "yearly_total": current_year_total,
@@ -100,6 +98,26 @@ def weekly_total(request):
     return render(request, "cards/weekly_total.html", {"weekly_total": total})
 
 
+@require_http_methods(["DELETE"])
+def delete_run(request, run_id):
+    run = get_object_or_404(Run, id=run_id)
+    run.delete()
+    
+    # Get the updated run list
+    runs = Run.objects.all().order_by('-date')
+    paginator = Paginator(runs, 10)  # Assuming 10 runs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Render the updated run list
+    return render(request, 'run_list.html', {'page_obj': page_obj})
+
+
+def charts(request):
+    return render(request, 'charts/charts.html')
+
+
+# Charts
 def yearly_distance_data(request):
     current_year = timezone.now().year
     monthly_data = (
@@ -128,21 +146,6 @@ def yearly_distance_data(request):
         data["datasets"][0]["data"].append(float(entry["total_distance"]))
 
     return JsonResponse(data)
-
-
-@require_http_methods(["DELETE"])
-def delete_run(request, run_id):
-    run = get_object_or_404(Run, id=run_id)
-    run.delete()
-    
-    # Get the updated run list
-    runs = Run.objects.all().order_by('-date')
-    paginator = Paginator(runs, 10)  # Assuming 10 runs per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-    # Render the updated run list
-    return render(request, 'run_list.html', {'page_obj': page_obj})
 
 
 def cumulative_distance_data(request):

@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Tracker Charts</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1 class="title">Run Tracker Charts</h1>
+
+    <div class="container">
+        <div class="chart-container">
+            {% include 'charts/yearly_chart.html' %}
+        </div>
+        <div class="chart-container">
+            {% include 'charts/cumulative_distance.html' %}
+        </div>
+    </div>
+
+    <a href="{% url 'index' %}" class="btn-secondary">Back to Home</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</body>
+</html>

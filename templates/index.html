@@ -1,55 +1,36 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run Tracker</title>
-    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% extends 'base.html' %}
 
-</head>
-<body>
-    <h1 class="title">Run Tracker</h1>
-
+{% block content %}
+<div>
     <div class="container">
-        <div class="dashboard">
-            
-            <div id="add-run-form">
-                <h2>Add New Run</h2>
-                <form hx-post="{% url 'add_run' %}" hx-target="#run-list" hx-swap="innerHTML">
-                    {% csrf_token %}
-                    <input type="date" name="date" required value="{% now 'Y-m-d' %}">
-                    <input type="number" name="distance" step="0.01" placeholder="Distance (km)" required>
-                    <input type="text" name="time" pattern="[0-9]+:[0-5][0-9]" placeholder="Time (MM:SS)" required>
-                    <input type="text" name="note" placeholder="Note (optional)">
-                    <button type="submit" class="btn-primary">Add Run</button>
-                </form>
-            </div>
+        <div id="add-run-form" class="half">
+            {% include 'forms/add_run.html' %}
+        </div>
+        <div class="card-container half">
             <div class="card" id="yearly-total"></div>
             <div class="card" id="weekly-total"></div>
-
-        </div>
-
-        <div id="run-list" hx-get="{% url 'run_list' %}" hx-trigger="load">
-            <!-- Run list will be loaded here -->
         </div>
     </div>
-    {% include 'charts/yearly_chart.html' %}
-    {% include 'charts/cumulative_distance.html' %}
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-    
-    <script>
-        document.body.addEventListener('htmx:configRequest', (event) => {
-            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        });
+    <div class="container">
+        <div class="half">
+            <div id="run-list" hx-get="{% url 'run_list' %}" hx-trigger="load"></div>
+        </div>
+        <div class="half">
+            <h3> Graphs </h3>     
+            {% include 'charts/yearly_chart.html' %}
+            {% include 'charts/cumulative_distance.html' %}
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-        document.addEventListener('DOMContentLoaded', function() {
-            htmx.ajax('GET', "{% url 'yearly_total' %}", '#yearly-total');
-            htmx.ajax('GET', "{% url 'weekly_total' %}", '#weekly-total');
-        });
-    </script>
-</body>
-</html>
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        htmx.ajax('GET', "{% url 'yearly_total' %}", '#yearly-total');
+        htmx.ajax('GET', "{% url 'weekly_total' %}", '#weekly-total');
+    });
+</script>
+{% endblock %}

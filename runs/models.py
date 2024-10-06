@@ -37,8 +37,7 @@ class Run(models.Model):
         if self.distance <= 0:
             raise ValueError("Distance must be greater than 0.")
 
-        if self.time <= 0:
-            raise ValueError("Time must be greater than 0.")
+        
         if isinstance(self.time, str):
             time_parts = self.time.split(":")
             if len(time_parts) == 3:
@@ -49,6 +48,8 @@ class Run(models.Model):
                 self.time = minutes * 60 + seconds
             else:
                 raise ValueError("Invalid time format. Use 'HH:MM:SS' or 'MM:SS'.")
+        if self.time <= 0:
+            raise ValueError("Time must be greater than 0.")
         if self.distance and self.time:
             self.average_pace = round(self.time / 60 / self.distance, 2)
 

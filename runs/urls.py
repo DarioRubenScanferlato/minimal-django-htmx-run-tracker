@@ -10,4 +10,5 @@ urlpatterns = [
     path("yearly-distance-data/", views.yearly_distance_data, name="yearly_distance_data"),
     path("delete-run/<int:run_id>/", views.delete_run, name="delete_run"),
     path("cumulative-distance-data/", views.cumulative_distance_data, name="cumulative_distance_data"),
+    path('charts/', views.charts, name='charts'),
 ]
