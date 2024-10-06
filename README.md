@@ -2,7 +2,8 @@
 
 This is a simple run tracking app I built to practice Django, as well as test out uv and HTMX. Very enjoyable tools btw.
 
-![image](https://github.com/user-attachments/assets/0f43dcdb-2cca-4641-bd8e-1735c68d5801)
+![image](https://github.com/user-attachments/assets/11a41bb9-acdb-4dcf-80ee-b12476707738)
+
 
 
 ## Features
